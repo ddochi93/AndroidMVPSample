@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mainPresenter = new MainPresenter();
         mainPresenter.attachView(this);
         mainPresenter.setSampleImageData(SampleImageData.getInstance()); // adapter에 대한 모델과 뷰를 별도로 정의하고mainpresenter에서 바로 호출하도록 고쳐야함. 생성해서 넘기기만 하는거임.
-
         ///
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
