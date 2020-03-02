@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
+import tech.thdev.android_mvp_sample.adapter.contract.ImageAdapterContract;
 import tech.thdev.android_mvp_sample.data.ImageItem;
 import tech.thdev.android_mvp_sample.data.SampleImageData;
 
@@ -13,11 +14,25 @@ import tech.thdev.android_mvp_sample.data.SampleImageData;
 
 public class MainPresenter implements MainContract.Presenter {
     private MainContract.View view;
+
+    private ImageAdapterContract.View adapterView;
+    private ImageAdapterContract.Model adapterModel;
+
     private SampleImageData sampleImageData;
 
     @Override
     public void attachView(MainContract.View view) {
         this.view = view;
+    }
+
+    @Override
+    public void setImageAdapterModel(ImageAdapterContract.Model adapterModel) {
+        this.adapterModel = adapterModel;
+    }
+
+    @Override
+    public void setImageAdapterView(ImageAdapterContract.View adapterView) {
+        this.adapterView = adapterView;
     }
 
     @Override
@@ -33,8 +48,12 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void loadItems(Context context, boolean isClear) {
         ArrayList<ImageItem> items = sampleImageData.getImages(context, 10);
-        view.addItems(items, isClear);
-        view.notifyAdapter();  //adapter 갱
-
+        if(isClear) {
+            adapterModel.clearItem();
+        }
+        adapterModel.addItems(items);
+        adapterView.notifyAdapter();
+//        view.addItems(items, isClear);
+//        view.notifyAdapter();  //adapter 갱신
     }
 }

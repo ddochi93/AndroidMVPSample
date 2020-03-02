@@ -16,36 +16,38 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tech.thdev.android_mvp_sample.R;
+import tech.thdev.android_mvp_sample.adapter.contract.ImageAdapterContract;
 import tech.thdev.android_mvp_sample.data.ImageItem;
+import tech.thdev.android_mvp_sample.listener.OnItemClickListener;
 
 /**
  * Created by tae-hwan on 10/23/16.
  */
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> implements ImageAdapterContract.View, ImageAdapterContract.Model {
 
     private Context mContext;
 
-    private ArrayList<ImageItem> mImageItems;
+    private ArrayList<ImageItem> imageItems;
 
     public ImageAdapter(Context context) {
         mContext = context;
     }
 
     public void setImageItems(ArrayList<ImageItem> imageItems) {
-        mImageItems = imageItems;
+        this.imageItems= imageItems;
     }
 
-    public void clear() {
-        if (mImageItems != null) {
-            mImageItems.clear();
-            mImageItems = null;
-        }
-    }
+//    public void clear() {
+//        if (mImageItems != null) {
+//            mImageItems.clear();
+//            mImageItems = null;
+//        }
+//    }
 
     @Override
     public int getItemCount() {
-        return mImageItems != null ? mImageItems.size() : 0;
+        return imageItems != null ? imageItems.size() : 0;
     }
 
     @Override
@@ -57,8 +59,37 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public void onBindViewHolder(final ImageViewHolder holder, int position) {
         if (holder == null) return;
 
-        final ImageItem imageItem = mImageItems.get(position);
+        final ImageItem imageItem = imageItems.get(position);
         new ImageAsync(holder.imageView).execute(imageItem.getImageRes());
+    }
+
+    @Override
+    public void setOnClickListener(OnItemClickListener clickListener) {
+
+    }
+
+    @Override
+    public void notifyAdapter() {
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void addItems(ArrayList<ImageItem> imageItems) {
+        this.imageItems = imageItems;
+    }
+
+    @Override
+    public void clearItem() {
+        if(imageItems != null) {
+            imageItems.clear();
+        }
+
+
+    }
+
+    @Override
+    public ImageItem getItem(int position) {
+        return null;
     }
 
     private class ImageAsync extends AsyncTask<Integer, Void, Bitmap> {
