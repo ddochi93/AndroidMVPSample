@@ -12,6 +12,7 @@ import tech.thdev.android_mvp_sample.data.SampleImageData;
 public interface MainContract {
 
     interface View {
+        void showToast(String title);
     }
 
     interface Presenter {

@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mainPresenter.loadItems(this, false);  //true하면?
 
 
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showToast(String title) {
+        Toast.makeText(this,title, Toast.LENGTH_SHORT).show();
     }
 
 

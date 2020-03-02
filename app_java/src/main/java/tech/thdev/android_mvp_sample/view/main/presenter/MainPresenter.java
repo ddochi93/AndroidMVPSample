@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import tech.thdev.android_mvp_sample.adapter.contract.ImageAdapterContract;
 import tech.thdev.android_mvp_sample.data.ImageItem;
 import tech.thdev.android_mvp_sample.data.SampleImageData;
+import tech.thdev.android_mvp_sample.listener.OnItemClickListener;
 
 /**
  * Created by tae-hwan on 12/22/16.
  */
 
-public class MainPresenter implements MainContract.Presenter {
+public class MainPresenter implements MainContract.Presenter, OnItemClickListener {
     private MainContract.View view;
 
     private ImageAdapterContract.View adapterView;
@@ -33,6 +34,8 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void setImageAdapterView(ImageAdapterContract.View adapterView) {
         this.adapterView = adapterView;
+
+        this.adapterView.setOnClickListener(this);
     }
 
     @Override
@@ -55,5 +58,11 @@ public class MainPresenter implements MainContract.Presenter {
         adapterView.notifyAdapter();
 //        view.addItems(items, isClear);
 //        view.notifyAdapter();  //adapter 갱신
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        ImageItem imageItem = adapterModel.getItem(position);
+        view.showToast(imageItem.getTitle());
     }
 }
